@@ -4,6 +4,7 @@ import logging
 from limitlessled import Color
 from limitlessled.bridge import Bridge
 from limitlessled.group.dimmer import DimmerGroup
+from limitlessled.group.rgb import RgbGroup
 from limitlessled.group.rgbw import RgbwGroup
 from limitlessled.group.rgbww import RgbwwGroup
 from limitlessled.group.white import WhiteGroup
@@ -49,7 +50,7 @@ DEFAULT_TRANSITION = 0
 DEFAULT_VERSION = 6
 DEFAULT_FADE = False
 
-LED_TYPE = ["rgbw", "rgbww", "white", "bridge-led", "dimmer"]
+LED_TYPE = ["rgb", "rgbw", "rgbww", "white", "bridge-led", "dimmer"]
 
 EFFECT_NIGHT = "night"
 
@@ -212,6 +213,9 @@ class LimitlessLEDGroup(LightEntity, RestoreEntity):
         elif isinstance(group, DimmerGroup):
             self._supported = SUPPORT_LIMITLESSLED_DIMMER
             self._effect_list = []
+        elif isinstance(group, RgbGroup):
+            self._supported = SUPPORT_LIMITLESSLED_RGB
+            self._effect_list = [EFFECT_COLORLOOP, EFFECT_WHITE]            
         elif isinstance(group, RgbwGroup):
             self._supported = SUPPORT_LIMITLESSLED_RGB
             self._effect_list = [EFFECT_COLORLOOP, EFFECT_NIGHT, EFFECT_WHITE]
